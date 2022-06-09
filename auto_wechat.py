@@ -186,18 +186,23 @@ class WeChat():
         # 返回去重过后的联系人列表
         return list(set(contacts))
 
-    # # 检测微信是否收到新消息
-    # def check_new_msg(self):
-    #     self.open_wechat()
-    #     wechat = self.get_wechat()
-    #     item = wechat.ListItemControl(Name="")
-    #     x, y = item.GetPosition()
-    #     auto.MoveTo(x, y)
-    #     print(item.TextControl(Depth=2))
+    # 检测微信是否收到新消息
+    def check_new_msg(self):
+        self.open_wechat()
+        wechat = self.get_wechat()
+        window = self.get_contact("凤凰城洗浴中心")
+        item = wechat.ListControl(searchDepth=12, Name="消息")
+        items = item.GetLastChildControl()
+        print(items.Name)
+        # DataItem = item.DataItemControl()
+        click(item)
+        # x, y = item.GetPosition()
+        # auto.MoveTo(x, y)
+        # print(item.TextControl(Depth=2))
 
 
 if __name__ == '__main__':
-    wechat_path = "D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"
+    wechat_path = "C:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"
     wechat = WeChat(wechat_path)
     # wechat.send_image("凤凰城洗浴中心", "C:\\Users\\Administrator\\Pictures\\R-C.jpg")
 
