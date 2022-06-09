@@ -5,10 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: main",
+            "name": "Python: auto_wechat",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/auto_wechat.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: wechat_gui",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wechat_gui.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }

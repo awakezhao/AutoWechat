@@ -90,6 +90,7 @@ class WeChat():
         ctrlV()
         window.SendKeys("{enter}")
 
+    # 搜索指定用户名的联系人发送图片
     def send_image(self, name, path):
         window = self.get_contact(name)
         self.paste_img(path)
@@ -150,9 +151,54 @@ class WeChat():
 
     # 获取所有通讯录中所有联系人
     def find_all_contacts(self):
-        pass
+        self.open_wechat()
+        wechat = self.get_wechat()
+
+        # 获取通讯录管理界面
+        click(wechat.ButtonControl(Name="通讯录"))
+        list_control = wechat.ListControl(Name="联系人")
+        scroll_pattern = list_control.GetScrollPattern()
+        scroll_pattern.SetScrollPercent(-1, 0)
+        contacts_menu = list_control.ButtonControl(Name="通讯录管理")
+        click(contacts_menu)
+
+        # 切换到通讯录管理界面
+        contacts_window = auto.GetForegroundControl()
+        list_control = contacts_window.ListControl()
+        scroll_pattern = list_control.GetScrollPattern()
+
+        # 读取用户
+        contacts = []
+        for percent in np.arange(0, 1.05, 0.05):
+            scroll_pattern.SetScrollPercent(-1, percent)
+            for contact in contacts_window.ListControl().GetChildren():
+                # 获取用户的昵称以及备注
+                name = contact.TextControl().Name
+                note = contact.ButtonControl(foundIndex=2).Name
+
+                print(name,  note)
+                # 有备注的用备注，没有备注的用昵称
+                if note == "":
+                    contacts.append(name)
+                else:
+                    contacts.append(note)
+
+        # 返回去重过后的联系人列表
+        return list(set(contacts))
+
+    # # 检测微信是否收到新消息
+    # def check_new_msg(self):
+    #     self.open_wechat()
+    #     wechat = self.get_wechat()
+    #     item = wechat.ListItemControl(Name="")
+    #     x, y = item.GetPosition()
+    #     auto.MoveTo(x, y)
+    #     print(item.TextControl(Depth=2))
 
 
 if __name__ == '__main__':
-    wechat = WeChat("aaa")
-    print("hello python")
+    wechat_path = "D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"
+    wechat = WeChat(wechat_path)
+    # wechat.send_image("凤凰城洗浴中心", "C:\\Users\\Administrator\\Pictures\\R-C.jpg")
+
+    wechat.check_new_msg()
