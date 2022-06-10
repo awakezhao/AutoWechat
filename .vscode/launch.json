@@ -8,7 +8,7 @@
             "name": "Python: auto_wechat",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/auto_wechat.py",
+            "program": "${workspaceFolder}/cmd/util/auto_wechat.py",
             "console": "integratedTerminal",
             "justMyCode": true
         },
@@ -17,6 +17,14 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wechat_gui.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: copy_robot",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmd/robot.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }

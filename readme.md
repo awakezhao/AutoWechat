@@ -1,5 +1,8 @@
 # 说明
 
+## Todo:
+1. 自动从91porn上抓图片然后转发到微信群
+
 ## 参考
 1. https://github.com/yinkaisheng/Python-UIAutomation-for-Windows
     1. automation.py c –t3            // 3秒后枚举当前窗口所有控件
@@ -9,5 +12,3 @@
 2. https://github.com/sfyc23/EverydayWechat
 3. https://github.com/LTEnjoy/easyChat
 
-## Todo:
-1. 自动从91porn上抓图片然后转发到微信群

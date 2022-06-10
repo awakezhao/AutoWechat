@@ -4,7 +4,7 @@ import time
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from auto_wechat import WeChat
+from util.auto_wechat import WeChat
 
 # 定时发送子线程类
 class ClockThread(QThread):

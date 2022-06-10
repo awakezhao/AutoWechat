@@ -43,7 +43,10 @@ class WeChat():
 
         # 用于复制内容到剪切板
         self.app = QApplication([])
-    
+
+        #历史消息
+        self.history = []
+
     # 打开微信客户端
     def open_wechat(self):
         subprocess.Popen(self.path)
@@ -70,10 +73,12 @@ class WeChat():
 
     # 搜索指定用户名的联系人发送信息
     def send_msg(self, name, text):
-        window = self.get_contact(name)
-        pyperclip.copy(text)
-        ctrlV()
-        window.SendKeys("{enter}")
+        if text != None:
+            window = self.get_contact(name)
+            pyperclip.copy(text)
+            ctrlV()
+            window.SendKeys("{enter}")
+            self.history.append(text)
     
     # 搜索指定用户名的联系人发送文件
     def send_file(self, name, path):
@@ -186,24 +191,57 @@ class WeChat():
         # 返回去重过后的联系人列表
         return list(set(contacts))
 
-    # 检测微信是否收到新消息
-    def check_new_msg(self):
+    def get_other_msg(self, name):
         self.open_wechat()
         wechat = self.get_wechat()
-        window = self.get_contact("凤凰城洗浴中心")
-        item = wechat.ListControl(searchDepth=12, Name="消息")
-        items = item.GetLastChildControl()
-        print(items.Name)
-        # DataItem = item.DataItemControl()
-        click(item)
-        # x, y = item.GetPosition()
-        # auto.MoveTo(x, y)
-        # print(item.TextControl(Depth=2))
+        self.get_contact(name)
+        msgbox = wechat.ListControl(searchDepth=12, Name="消息")
+        msgs = msgbox.GetChildren()
+        msgs.reverse()
+        for msg in msgs:
+            if msg.Name != "[图片]" and (not msg.Name in self.history):
+                return msg.Name
 
+        return ""
+
+    def get_msg(self, name):
+        self.open_wechat()
+        wechat = self.get_wechat()
+        self.get_contact(name)
+        msgbox = wechat.ListControl(searchDepth=12, Name="消息")
+        # msgs = msgbox.GetChildren()
+        # msgs.reverse()
+        # for msg in msgs:
+        #     print(msg.Name)
+        msg = msgbox.GetLastChildControl()
+        # print(msg)
+        return msg.Name
+
+    def get_msg_test(self, name):
+        self.open_wechat()
+        wechat = self.get_wechat()
+        self.get_contact(name)
+        msgbox = wechat.ListControl(searchDepth=12, Name="消息")
+        msgs = msgbox.GetChildren()
+        msgs.reverse()
+        for msg in msgs:
+            print(msg.Name)
+
+    # 检测微信是否收到新消息
+    # def check_new_msg(self):
+    #     self.open_wechat()
+    #     wechat = self.get_wechat()
+    #     self.get_contact("凤凰城洗浴中心")
+    #     msgbox = wechat.ListControl(searchDepth=12, Name="消息")
+    #     msg = msgbox.GetLastChildControl()
+    #     print(msg.Name)
+        
 
 if __name__ == '__main__':
-    wechat_path = "C:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"
+    wechat_path = "D:\\Program Files (x86)\\Tencent\\WeChat\\WeChat.exe"
     wechat = WeChat(wechat_path)
     # wechat.send_image("凤凰城洗浴中心", "C:\\Users\\Administrator\\Pictures\\R-C.jpg")
 
-    wechat.check_new_msg()
+    name = "凤凰城洗浴中心"
+    wechat.get_msg_test(name)
+    
